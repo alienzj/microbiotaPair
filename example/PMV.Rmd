@@ -13,12 +13,15 @@ library(tibble)
 library(reshape)
 library(phyloseq)
 library(ggplot2)
+library(dplyr)
+library(ggpubr)
+
 source("../R/convert_data_into_phyloseq.R")
 source("../R/config.R")
 ## profile 
-tax <- fread("../data/metaphlan3.merged.abundance.profile.all.tsv", stringsAsFactors = F, data.table = F)
-rownames(tax) <- tax$clade_name
-tax <- tax[,-c(1:2)]
+tax <- fread("../data/metaphlan2.merged.abundance.profile.all.tsv", stringsAsFactors = F, data.table = F)
+rownames(tax) <- tax$index
+tax <- tax[,-1]
 splittax <- splitMetaphlan2(tax, prefix = "pmv")
 
 ## function 
@@ -68,6 +71,8 @@ phylo5 <- data2phyloseq(metadata = metadata, micro = grid, occ = 0.1)
 ## Alpha-diversity 
 
 ```{r, warning=F}
+library(dplyr)
+library(ggpubr)
 source("../R/alpha_diversity.R")
 source("../R/plot_alpha_diversity.R")
 
